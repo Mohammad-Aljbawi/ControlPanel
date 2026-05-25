@@ -4,7 +4,6 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useRouter } from "next/navigation"
 
-
 import {
   Server,
   Database,
@@ -35,15 +34,6 @@ import {
   SidebarInset,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { StatsCards } from "@/components/dashboard/stats-cards";
-import {
-  CpuChart,
-  MemoryChart,
-  NetworkChart,
-} from "@/components/dashboard/charts";
-import ServersList from "@/components/dashboard/servers-list";
-import { AlertsList } from "@/components/dashboard/alerts-list";
-import { ResourceUsage } from "@/components/dashboard/resource-usage";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -55,46 +45,14 @@ import {
 
 const navItems = [
   { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
-  {
-    icon: Server,
-    label: "Servers",
-    href: "/servers",
-  },
-  {
-    icon: Database,
-    label: "Databases",
-    href: "/databases",
-  },
-  {
-    icon: HardDrive,
-    label: "Storage",
-    href: "/storage",
-  },
-  {
-    icon: Network,
-    label: "Network",
-    href: "/network",
-  },
-  {
-    icon: Activity,
-    label: "Monitoring",
-    href: "/monitoring",
-  },
-  {
-    icon: Settings,
-    label: "Settings",
-    href: "/settings",
-  },
-  {
-    icon: Settings,
-    label: "Wiki",
-    href: "/wiki",
-  },
-  {
-    icon: Settings,
-    label: "Tools",
-    href: "/tools",
-  },
+  { icon: Server, label: "Servers", href: "/servers" },
+  { icon: Database, label: "Databases", href: "/databases" },
+  { icon: HardDrive, label: "Storage", href: "/storage" },
+  { icon: Network, label: "Network", href: "/network" },
+  { icon: Activity, label: "Monitoring", href: "/monitoring" },
+  { icon: Settings, label: "Settings", href: "/settings" },
+  { icon: Settings, label: "Wiki", href: "/wiki" },
+  { icon: Settings, label: "Tools", href: "/tools" },
 ];
 
 const systemItems = [
@@ -105,9 +63,9 @@ const systemItems = [
 ];
 
 export function DashboardSidebar({ children }: { children: React.ReactNode }) {
-  <h1>NEW SIDEBAR</h1>
   const pathname = usePathname();
   const router = useRouter();
+  
   return (
     <SidebarProvider>
       <Sidebar className="border-r border-sidebar-border">
@@ -118,9 +76,7 @@ export function DashboardSidebar({ children }: { children: React.ReactNode }) {
             </div>
             <div className="flex flex-col">
               <span className="text-sm font-semibold">HomeLab</span>
-              <span className="text-xs text-muted-foreground">
-                Infrastructure
-              </span>
+              <span className="text-xs text-muted-foreground">Infrastructure</span>
             </div>
           </div>
         </SidebarHeader>
@@ -129,10 +85,7 @@ export function DashboardSidebar({ children }: { children: React.ReactNode }) {
           <div className="px-2 pb-4">
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
-              <Input
-                placeholder="Search..."
-                className="h-9 bg-secondary/50 pl-8 text-sm"
-              />
+              <Input placeholder="Search..." className="h-9 bg-secondary/50 pl-8 text-sm" />
             </div>
           </div>
 
@@ -145,10 +98,7 @@ export function DashboardSidebar({ children }: { children: React.ReactNode }) {
                 {navItems.map((item) => (
                   <SidebarMenuItem key={item.label}>
                     <Link href={item.href}>
-                      <SidebarMenuButton
-                        isActive={pathname === item.href}
-                        className="justify-between"
-                      >
+                      <SidebarMenuButton isActive={pathname === item.href} className="justify-between">
                         <div className="flex items-center gap-3">
                           <item.icon className="size-4" />
                           <span>{item.label}</span>
@@ -200,15 +150,11 @@ export function DashboardSidebar({ children }: { children: React.ReactNode }) {
               <button className="flex w-full items-center gap-3 rounded-lg p-2 text-left hover:bg-sidebar-accent">
                 <Avatar className="size-8">
                   <AvatarImage src="/placeholder-user.jpg" />
-                  <AvatarFallback className="bg-primary/10 text-primary text-xs">
-                    JD
-                  </AvatarFallback>
+                  <AvatarFallback className="bg-primary/10 text-primary text-xs">JD</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 overflow-hidden">
                   <p className="truncate text-sm font-medium">John Doe</p>
-                  <p className="truncate text-xs text-muted-foreground">
-                    Admin
-                  </p>
+                  <p className="truncate text-xs text-muted-foreground">Admin</p>
                 </div>
                 <ChevronDown className="size-4 text-muted-foreground" />
               </button>
@@ -216,12 +162,7 @@ export function DashboardSidebar({ children }: { children: React.ReactNode }) {
             <DropdownMenuContent align="start" className="w-56">
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Team Settings</DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => {
-                  localStorage.removeItem("loggedIn");
-                  router.push("/login");
-                }}
-              >
+              <DropdownMenuItem onClick={() => { localStorage.removeItem("loggedIn"); router.push("/login"); }}>
                 Sign out
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -230,47 +171,17 @@ export function DashboardSidebar({ children }: { children: React.ReactNode }) {
       </Sidebar>
 
       <SidebarInset className="flex flex-col">
+        {/* هيدر ثابت بسيط يحتوي على زر التوجيه فقط */}
         <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-4 border-b border-border bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <SidebarTrigger />
           <div className="flex-1" />
-          {children}
         </header>
-        <DashboardContent />
+        
+        {/* هنا يتم عرض محتوى الصفحة المفتوحة حالياً تلقائياً */}
+        <div className="flex flex-1 flex-col gap-6 overflow-auto p-6">
+          {children}
+        </div>
       </SidebarInset>
     </SidebarProvider>
-  );
-}
-
-function DashboardContent() {
-  return (
-    <div className="flex flex-1 flex-col gap-6 overflow-auto p-6">
-      <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold tracking-tight text-balance">
-          Infrastructure Overview
-        </h1>
-        <p className="text-muted-foreground">
-          Monitor your servers, databases, and network in real-time.
-        </p>
-      </div>
-
-      <StatsCards />
-
-      <div className="grid gap-4 lg:grid-cols-4">
-        <CpuChart />
-        <MemoryChart />
-        <NetworkChart />
-      </div>
-
-      <div className="grid gap-4 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <ServersList />
-        </div>
-        <div className="space-y-4">
-          <ResourceUsage />
-        </div>
-      </div>
-
-      <AlertsList />
-    </div>
   );
 }

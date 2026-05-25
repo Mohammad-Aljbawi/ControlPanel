@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
-
 import { DashboardSidebar } from "@/components/layout/sidebar"
 
 export default function AppLayout({
@@ -16,15 +15,13 @@ export default function AppLayout({
     if (!localStorage.getItem("loggedIn")) {
       router.push("/login")
     }
-  }, [])
+  }, [router])
 
   return (
-    <div className="flex min-h-screen">
-      <DashboardSidebar />
-
-      <main className="flex-1 p-6">
+    <div className="flex min-h-screen w-full">
+      <DashboardSidebar>
         {children}
-      </main>
+      </DashboardSidebar>
     </div>
   )
 }

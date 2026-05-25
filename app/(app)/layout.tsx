@@ -22,7 +22,7 @@ export default function AppLayout({
     <div className="flex min-h-screen">
       <DashboardSidebar />
 
-      <main className="flex-2 flex flex-col p-6">
+      <main className="flex-1 p-6">
         {children}
       </main>
     </div>

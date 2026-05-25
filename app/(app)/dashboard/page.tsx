@@ -1,23 +1,46 @@
-"use client"
+import {StatsCards } from "@/components/dashboard/stats-cards"
+import ServersList from "@/components/dashboard/servers-list"
+import { AlertsList } from "@/components/dashboard/alerts-list"
+import { ResourceUsage } from "@/components/dashboard/resource-usage"
 
-import { ThemeToggle } from "@/components/theme-toggle"
-import { Button } from "@/components/ui/button"
-import { Bell, RefreshCw } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import {
+  CpuChart,
+  MemoryChart,
+  NetworkChart,
+} from "@/components/dashboard/charts"
 
 export default function DashboardPage() {
   return (
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" className="relative size-8">
-          <Bell className="size-4" />
-          <Badge className="absolute -right-1 -top-1 size-4 rounded-full p-0 text-[10px]">
-            3
-          </Badge>
-        </Button>
-        <Button variant="ghost" size="icon" className="size-8">
-          <RefreshCw className="size-4" />
-        </Button>
-        <ThemeToggle />
-      </div>   
+    <div className="space-y-6">
+
+      <div>
+        <h1 className="text-3xl font-bold">
+          Infrastructure Overview
+        </h1>
+
+        <p className="text-muted-foreground">
+          Monitor your infrastructure in real-time.
+        </p>
+      </div>
+
+      <StatsCards />
+
+      {/* <div className="grid gap-6 lg:grid-cols-3">
+        <CpuChart />
+        <MemoryChart />
+        <NetworkChart />
+      </div> */}
+
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <ServersList />
+        </div>
+
+        <ResourceUsage />
+      </div>
+
+      <AlertsList />
+
+    </div>
   )
 }

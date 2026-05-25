@@ -1,3 +1,3 @@
 export default function ServersPage() {
-  return <div>Servers</div>
+  return <h1>SERVERS PAGE ONLY</h1>
 }

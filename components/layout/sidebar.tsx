@@ -41,7 +41,7 @@ import {
   MemoryChart,
   NetworkChart,
 } from "@/components/dashboard/charts";
-import { ServersList } from "@/components/dashboard/servers-list";
+import ServersList from "@/components/dashboard/servers-list";
 import { AlertsList } from "@/components/dashboard/alerts-list";
 import { ResourceUsage } from "@/components/dashboard/resource-usage";
 import { Input } from "@/components/ui/input";

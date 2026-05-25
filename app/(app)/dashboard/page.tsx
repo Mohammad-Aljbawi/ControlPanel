@@ -1,6 +1,6 @@
 "use client"
 
-import { DashboardSidebar } from "@/components/dashboard/sidebar"
+import { DashboardSidebar } from "@/components/layout/sidebar"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@/components/ui/button"
 import { Bell, RefreshCw } from "lucide-react"

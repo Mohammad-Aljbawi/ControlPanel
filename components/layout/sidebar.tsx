@@ -1,5 +1,9 @@
 "use client"
 
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+
+
 import {
   Server,
   Database,
@@ -14,6 +18,7 @@ import {
   ChevronDown,
   Search,
 } from "lucide-react"
+
 import {
   Sidebar,
   SidebarContent,
@@ -43,23 +48,29 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+
 const navItems = [
-  { icon: LayoutDashboard, label: "Overview", active: true },
-  { icon: Server, label: "Servers", badge: "12" },
-  { icon: Database, label: "Databases", badge: "4" },
-  { icon: HardDrive, label: "Storage" },
-  { icon: Network, label: "Network" },
-  { icon: Activity, label: "Monitoring" },
+  { icon: LayoutDashboard, label: "Overview", active: true, href: "/dashboard",},
+  { icon: Server, label: "Servers", badge: "12", href: "/dashboard/servers" },
+  { icon: Database, label: "Databases", badge: "4", href: "/dashboard/databases" },
+  { icon: HardDrive, label: "Storage", href: "/dashboard/storage" },
+  { icon: Network, label: "Network", href: "/dashboard/network" },
+  { icon: Activity, label: "Monitoring", href: "/dashboard/monitoring" },
+  { icon: Settings, label: "Settings", href: "/dashboard/settings" },
+  { icon: Bell, label: "Alerts", badge: "3", href: "/dashboard/alerts" },
+
 ]
 
 const systemItems = [
-  { icon: Shield, label: "Security" },
-  { icon: Terminal, label: "Logs" },
-  { icon: Bell, label: "Alerts", badge: "3" },
-  { icon: Settings, label: "Settings" },
+  { icon: Shield, label: "Security", href: "/dashboard/security" },
+  { icon: Terminal, label: "Logs", href: "/dashboard/logs" },
+  { icon: Bell, label: "Alerts", badge: "3", href: "/dashboard/alerts" },
+  { icon: Settings, label: "Settings", href: "/dashboard/settings" },
 ]
 
+
 export function DashboardSidebar({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname()
   return (
     <SidebarProvider>
       <Sidebar className="border-r border-sidebar-border">
@@ -94,8 +105,9 @@ export function DashboardSidebar({ children }: { children: React.ReactNode }) {
               <SidebarMenu>
                 {navItems.map((item) => (
                   <SidebarMenuItem key={item.label}>
+                    <Link href={item.href}>
                     <SidebarMenuButton
-                      isActive={item.active}
+                      isActive={pathname === item.href}
                       className="justify-between"
                     >
                       <div className="flex items-center gap-3">
@@ -108,6 +120,7 @@ export function DashboardSidebar({ children }: { children: React.ReactNode }) {
                         </span>
                       )}
                     </SidebarMenuButton>
+                    </Link>
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
@@ -122,17 +135,19 @@ export function DashboardSidebar({ children }: { children: React.ReactNode }) {
               <SidebarMenu>
                 {systemItems.map((item) => (
                   <SidebarMenuItem key={item.label}>
-                    <SidebarMenuButton className="justify-between">
-                      <div className="flex items-center gap-3">
-                        <item.icon className="size-4" />
-                        <span>{item.label}</span>
-                      </div>
-                      {item.badge && (
-                        <span className="rounded-md bg-destructive/15 px-1.5 py-0.5 text-xs font-medium text-destructive">
-                          {item.badge}
-                        </span>
-                      )}
-                    </SidebarMenuButton>
+                    <Link href={item.href}>
+                      <SidebarMenuButton className="justify-between">
+                        <div className="flex items-center gap-3">
+                          <item.icon className="size-4" />
+                          <span>{item.label}</span>
+                        </div>
+                        {item.badge && (
+                          <span className="rounded-md bg-destructive/15 px-1.5 py-0.5 text-xs font-medium text-destructive">
+                            {item.badge}
+                          </span>
+                        )}
+                      </SidebarMenuButton>
+                    </Link>
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>

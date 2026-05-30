@@ -56,19 +56,25 @@ function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: 
   )
 }
 
-export function CpuChart() {
+export function CpuChart({
+  data,
+  current,
+}: {
+  data: { time: string; value: number }[]
+  current: number
+}) {
   return (
     <Card>
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm font-medium">CPU Usage</CardTitle>
-          <span className="text-2xl font-bold text-primary">48%</span>
+          <span className="text-2xl font-bold text-primary">{current}</span>
         </div>
       </CardHeader>
       <CardContent className="pb-4">
         <div className="h-[180px]">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={cpuData}>
+            <AreaChart data={data}>
               <defs>
                 <linearGradient id="cpuGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="oklch(0.7 0.18 160)" stopOpacity={0.3} />
@@ -105,19 +111,25 @@ export function CpuChart() {
   )
 }
 
-export function MemoryChart() {
+export function MemoryChart({
+  data,
+  current,
+}: {
+  data: { time: string; value: number }[]
+  current: number
+}) {
   return (
     <Card>
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-sm font-medium">Memory Usage</CardTitle>
-          <span className="text-2xl font-bold text-chart-2">71%</span>
+          <span className="text-2xl font-bold text-chart-2">{current}%</span>
         </div>
       </CardHeader>
       <CardContent className="pb-4">
         <div className="h-[180px]">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={memoryData}>
+            <AreaChart data={data}>
               <defs>
                 <linearGradient id="memoryGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="oklch(0.65 0.15 200)" stopOpacity={0.3} />
@@ -154,7 +166,15 @@ export function MemoryChart() {
   )
 }
 
-export function NetworkChart() {
+export function NetworkChart({
+  data,
+}: {
+  data: {
+    time: string
+    inbound: number
+    outbound: number
+  }[]
+}) {
   return (
     <Card className="lg:col-span-2">
       <CardHeader className="pb-2">
@@ -175,7 +195,7 @@ export function NetworkChart() {
       <CardContent className="pb-4">
         <div className="h-[180px]">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={networkData}>
+            <AreaChart data={data}>
               <defs>
                 <linearGradient id="inboundGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="oklch(0.7 0.18 160)" stopOpacity={0.3} />

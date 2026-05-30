@@ -1,10 +1,92 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { StatsCards } from "@/components/dashboard/stats-cards";
-import { CpuChart, MemoryChart, NetworkChart } from "@/components/dashboard/charts";
+import {
+  CpuChart,
+  MemoryChart,
+  NetworkChart,
+} from "@/components/dashboard/charts";
 import ServersList from "@/components/dashboard/servers-list";
 import { AlertsList } from "@/components/dashboard/alerts-list";
 import { ResourceUsage } from "@/components/dashboard/resource-usage";
 
 export default function DashboardPage() {
+  const [system, setSystem] = useState<any>(null);
+  const [cpuHistory, setCpuHistory] = useState<
+    { time: string; value: number }[]
+  >([]);
+  const [memoryHistory, setMemoryHistory] = useState<
+    { time: string; value: number }[]
+  >([]);
+  const [networkHistory, setNetworkHistory] = useState<
+  {
+    time: string
+    inbound: number
+    outbound: number
+  }[]
+>([])
+
+  useEffect(() => {
+    async function loadSystem() {
+      const res = await fetch("/api/system");
+      const data = await res.json();
+
+      setSystem(data);
+
+      const networkRes = await fetch("/api/network");
+      const networkData = await networkRes.json();
+
+      setSystem(data);
+
+      setCpuHistory((prev) => [
+        ...prev.slice(-9),
+        {
+          time: new Date().toLocaleTimeString(),
+          value: data.cpu,
+        },
+      ]);
+      setMemoryHistory((prev) => [
+  ...prev.slice(-9),
+  {
+    time: new Date().toLocaleTimeString(),
+    value: data.memory,
+  },
+])
+
+      setCpuHistory((prev) => [
+        ...prev.slice(-9),
+        {
+          time: new Date().toLocaleTimeString(),
+          value: data.cpu,
+        },
+      ]);
+      setMemoryHistory((prev) => [
+        ...prev.slice(-9),
+        {
+          time: new Date().toLocaleTimeString(),
+          value: data.memory,
+        },
+      ]);
+
+      setNetworkHistory((prev) => [
+        ...prev.slice(-9),
+        {
+          time: new Date().toLocaleTimeString(),
+          inbound: networkData.inbound,
+          outbound: networkData.outbound,
+        },
+      ]);
+    }
+
+    loadSystem();
+
+    const interval = setInterval(loadSystem, 100000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!system) return null;
   return (
     <>
       <div className="flex flex-col gap-1">
@@ -19,9 +101,12 @@ export default function DashboardPage() {
       <StatsCards />
 
       <div className="grid gap-4 lg:grid-cols-4">
-        <CpuChart />
-        <MemoryChart />
-        <NetworkChart />
+        <CpuChart current={system.cpu} data={cpuHistory} />
+        <MemoryChart
+  current={system.memory}
+  data={memoryHistory}
+/>
+        <NetworkChart data={networkHistory} />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">

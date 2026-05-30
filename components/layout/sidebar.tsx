@@ -3,6 +3,8 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useRouter } from "next/navigation"
+import { navItems } from "@/lib/navigation";
+import HeaderPage from "@/components/layout/header"
 
 import {
   Server,
@@ -43,17 +45,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const navItems = [
-  { icon: LayoutDashboard, label: "Overview", href: "/dashboard" },
-  { icon: Server, label: "Servers", href: "/servers" },
-  { icon: Database, label: "Databases", href: "/databases" },
-  { icon: HardDrive, label: "Storage", href: "/storage" },
-  { icon: Network, label: "Network", href: "/network" },
-  { icon: Activity, label: "Monitoring", href: "/monitoring" },
-  { icon: Settings, label: "Settings", href: "/settings" },
-  { icon: Settings, label: "Wiki", href: "/wiki" },
-  { icon: Settings, label: "Tools", href: "/tools" },
-];
 
 const systemItems = [
   { icon: Shield, label: "Security", href: "/dashboard/security" },
@@ -172,10 +163,7 @@ export function DashboardSidebar({ children }: { children: React.ReactNode }) {
 
       <SidebarInset className="flex flex-col">
         {/* هيدر ثابت بسيط يحتوي على زر التوجيه فقط */}
-        <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-4 border-b border-border bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <SidebarTrigger />
-          <div className="flex-1" />
-        </header>
+<HeaderPage />
         
         {/* هنا يتم عرض محتوى الصفحة المفتوحة حالياً تلقائياً */}
         <div className="flex flex-1 flex-col gap-6 overflow-auto p-6">

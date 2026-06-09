@@ -11,12 +11,6 @@ export default function AppLayout({
 }) {
   const router = useRouter()
 
-  useEffect(() => {
-    if (!localStorage.getItem("loggedIn")) {
-      router.push("/login")
-    }
-  }, [router])
-
   return (
     <div className="flex min-h-screen w-full">
       <DashboardSidebar>

@@ -5,7 +5,7 @@ import { Server, Database, HardDrive, Activity, TrendingUp, TrendingDown } from 
 
 const stats = [
   {
-    title: "Active Servers",
+    title: "Services Online",
     value: "12",
     change: "+2",
     trend: "up",
@@ -13,7 +13,7 @@ const stats = [
     description: "from last week",
   },
   {
-    title: "Database Instances",
+    title: "Servers Offline",
     value: "4",
     change: "0",
     trend: "neutral",
@@ -21,7 +21,7 @@ const stats = [
     description: "no change",
   },
   {
-    title: "Storage Used",
+    title: "Total Storage",
     value: "2.4 TB",
     change: "+120 GB",
     trend: "up",
@@ -29,7 +29,7 @@ const stats = [
     description: "from last week",
   },
   {
-    title: "Avg Response Time",
+    title: "System Uptime",
     value: "45ms",
     change: "-12ms",
     trend: "down",

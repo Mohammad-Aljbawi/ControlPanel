@@ -1,30 +1,30 @@
-import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
-    console.log("MIDDLEWARE RUNNING");
-  const isLoggedIn = false
+  const session = request.cookies.get("session")?.value;
 
-  if (!isLoggedIn) {
-    return NextResponse.redirect(new URL("/login", request.url))
+  console.log("PATH:", request.nextUrl.pathname);
+  console.log("SESSION:", session);
+
+  if (request.nextUrl.pathname === "/login") {
+    return NextResponse.next();
   }
- 
-  return NextResponse.next()
-  
+
+  if (
+    request.nextUrl.pathname.startsWith("/api/auth")
+  ) {
+    return NextResponse.next();
+  }
+
+  if (session === "authenticated") {
+    return NextResponse.next();
+  }
+
+  return NextResponse.redirect(
+    new URL("/login", request.url)
+  );
 }
 
 export const config = {
-  matcher: [ 
-//  "/dashboard",
-//   "/monitoring",
-//   "/services",
-//   "/tools",
-//   "/wiki",
-//   "/settings",
-//   "/servers",
-//   "/databases",
-//   "/storage",
-//   "/network",
-//   "/alerts",
-  ],
-}
+  matcher: ["/((?!_next|favicon.ico).*)"],
+};

@@ -28,6 +28,17 @@ function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
+
+function CardCategory({ className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div
+      data-slot="card-category"
+      className={cn('leading-none font-semibold', className)}
+      {...props}
+    />
+  )
+}
+
 function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
@@ -89,4 +100,5 @@ export {
   CardAction,
   CardDescription,
   CardContent,
+  CardCategory,
 }

@@ -7,7 +7,7 @@ import {
   MemoryChart,
   NetworkChart,
 } from "@/components/dashboard/charts";
-import ServersList from "@/components/dashboard/servers-list";
+import ServersList from "@/components/dashboard/services-list";
 import { AlertsList } from "@/components/dashboard/alerts-list";
 import { ResourceUsage } from "@/components/dashboard/resource-usage";
 
@@ -20,12 +20,12 @@ export default function DashboardPage() {
     { time: string; value: number }[]
   >([]);
   const [networkHistory, setNetworkHistory] = useState<
-  {
-    time: string
-    inbound: number
-    outbound: number
-  }[]
->([])
+    {
+      time: string;
+      inbound: number;
+      outbound: number;
+    }[]
+  >([]);
 
   useEffect(() => {
     async function loadSystem() {
@@ -47,12 +47,12 @@ export default function DashboardPage() {
         },
       ]);
       setMemoryHistory((prev) => [
-  ...prev.slice(-9),
-  {
-    time: new Date().toLocaleTimeString(),
-    value: data.memory,
-  },
-])
+        ...prev.slice(-9),
+        {
+          time: new Date().toLocaleTimeString(),
+          value: data.memory,
+        },
+      ]);
 
       setCpuHistory((prev) => [
         ...prev.slice(-9),
@@ -98,27 +98,15 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      <StatsCards />
+      <StatsCards cpu={system.cpu} memory={system.memory} disk={system.disk} />
 
       <div className="grid gap-4 lg:grid-cols-4">
         <CpuChart current={system.cpu} data={cpuHistory} />
-        <MemoryChart
-  current={system.memory}
-  data={memoryHistory}
-/>
+        <MemoryChart current={system.memory} data={memoryHistory} />
         <NetworkChart data={networkHistory} />
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <ServersList />
-        </div>
-        <div className="space-y-4">
-          <ResourceUsage />
-        </div>
-      </div>
-
-      <AlertsList />
+     
     </>
   );
 }

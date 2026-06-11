@@ -15,6 +15,11 @@ export function middleware(request: NextRequest) {
   ) {
     return NextResponse.next();
   }
+  if (
+  request.nextUrl.pathname.startsWith("/api/metrics")
+) {
+  return NextResponse.next();
+}
 
   if (session === "authenticated") {
     return NextResponse.next();

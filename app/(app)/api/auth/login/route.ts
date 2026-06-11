@@ -1,15 +1,23 @@
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const { username, password } = await req.json();
+  const contentType = req.headers.get("content-type") ?? "";
+  const isJson = contentType.includes("application/json");
+
+  const credentials = isJson
+    ? await req.json()
+    : Object.fromEntries(await req.formData());
+
+  const username = String(credentials.username ?? "");
+  const password = String(credentials.password ?? "");
 
   if (
     username === process.env.ADMIN_USERNAME &&
     password === process.env.ADMIN_PASSWORD
   ) {
-    const response = NextResponse.json({
-      success: true,
-    });
+    const response = isJson
+      ? NextResponse.json({ success: true })
+      : NextResponse.redirect(new URL("/dashboard", req.url), 303);
 
     response.cookies.set({
       name: "session",
@@ -21,6 +29,10 @@ export async function POST(req: Request) {
     });
 
     return response;
+  }
+
+  if (!isJson) {
+    return NextResponse.redirect(new URL("/login", req.url), 303);
   }
 
   return NextResponse.json(

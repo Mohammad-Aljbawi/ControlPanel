@@ -1,42 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Server, Database, HardDrive, Activity, TrendingUp, TrendingDown } from "lucide-react"
-
-const stats = [
-  {
-    title: "Services Online",
-    value: "12",
-    change: "+2",
-    trend: "up",
-    icon: Server,
-    description: "from last week",
-  },
-  {
-    title: "Servers Offline",
-    value: "4",
-    change: "0",
-    trend: "neutral",
-    icon: Database,
-    description: "no change",
-  },
-  {
-    title: "Total Storage",
-    value: "2.4 TB",
-    change: "+120 GB",
-    trend: "up",
-    icon: HardDrive,
-    description: "from last week",
-  },
-  {
-    title: "System Uptime",
-    value: "45ms",
-    change: "-12ms",
-    trend: "down",
-    icon: Activity,
-    description: "from last week",
-  },
-]
+import { Server, Database, HardDrive, Activity,} from "lucide-react"
 
 export function StatsCards({
   cpu,
@@ -47,6 +12,29 @@ export function StatsCards({
   memory: number
   disk: number
 }) {
+  const stats = [
+    {
+      title: "CPU Usage",
+      value: `${(cpu ?? 0).toFixed(1)}%`,
+      icon: Activity,
+    },
+    {
+      title: "Memory Usage",
+      value: `${(memory ?? 0).toFixed(1)}%`,
+      icon: Database,
+    },
+    {
+      title: "Disk Usage",
+      value: `${(disk ?? 0).toFixed(1)}%`,
+      icon: HardDrive,
+    },
+    {
+  title: "Containers",
+  value: "13",
+  icon: Server,
+},
+  ]
+
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {stats.map((stat) => (
@@ -59,29 +47,11 @@ export function StatsCards({
               <stat.icon className="size-4 text-primary" />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stat.value}</div>
-            <div className="flex items-center gap-1 text-xs">
-              {stat.trend === "up" && (
-                <TrendingUp className="size-3 text-primary" />
-              )}
-              {stat.trend === "down" && (
-                <TrendingDown className="size-3 text-primary" />
-              )}
-              <span
-                className={
-                  stat.trend === "up"
-                    ? "text-primary"
-                    : stat.trend === "down"
-                    ? "text-primary"
-                    : "text-muted-foreground"
-                }
-              >
-                {stat.change}
-              </span>
-              <span className="text-muted-foreground">{stat.description}</span>
-            </div>
-          </CardContent>
+<CardContent>
+  <div className="text-2xl font-bold">
+    {stat.value}
+  </div>
+</CardContent>
         </Card>
       ))}
     </div>

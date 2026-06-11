@@ -9,10 +9,12 @@ import {
   Wrench,
   BookOpen,
   DatabaseBackupIcon,
+  Container,
 } from "lucide-react";
 
 export const navItems = [
   { icon: LayoutDashboard, label: "Overview", description: "Infrastructure overview", href: "/dashboard" },
+  { icon: Container, label: "Containers", description: "Manage your containers", href: "/containers" },
   { icon: Server, label: "Services", description: "Manage your services", href: "/services" },
   { icon: HardDrive, label: "Storage", description: "Manage your Storages", href: "/storage" },
   { icon: Network, label: "Network", description: "Manage your network", href: "/network" },

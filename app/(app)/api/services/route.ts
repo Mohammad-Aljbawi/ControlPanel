@@ -1,46 +1,73 @@
-import { NextResponse } from "next/server"
-import { services } from "@/lib/data/services"
+// import { NextResponse } from "next/server"
+// import { services } from "@/lib/data/services"
+
+// export async function GET() {
+//   const checkedServices = await Promise.all(
+//     services.map(async (service) => {
+
+//       if (
+//         service.url.startsWith("smb://") ||
+//         service.url === "#"
+//       ) {
+//         return {
+//           ...service,
+//           lastCheck: new Date().toLocaleTimeString(),
+//         }
+//       }
+
+//       try {
+//         const start = Date.now()
+
+//         const response = await fetch(service.url, {
+//           method: "HEAD",
+//           signal: AbortSignal.timeout(5000),
+//         })
+
+//         const responseTime = Date.now() - start
+
+//         return {
+//           ...service,
+//           status: response.ok ? "online" : "offline",
+//           responseTime: `${responseTime} ms`,
+//           lastCheck: new Date().toLocaleTimeString(),
+//         }
+//       } catch {
+//         return {
+//           ...service,
+//           status: "offline",
+//           responseTime: "-",
+//           lastCheck: new Date().toLocaleTimeString(),
+//         }
+//       }
+//     })
+//   )
+
+//   return NextResponse.json(checkedServices)
+// }
+
+import { exec } from "child_process";
+import { promisify } from "util";
+import { NextResponse } from "next/server";
+
+const execAsync = promisify(exec);
 
 export async function GET() {
-  const checkedServices = await Promise.all(
-    services.map(async (service) => {
+  try {
+    const { stdout } = await execAsync(
+      'docker ps --format "{{json .}}"'
+    );
 
-      if (
-        service.url.startsWith("smb://") ||
-        service.url === "#"
-      ) {
-        return {
-          ...service,
-          lastCheck: new Date().toLocaleTimeString(),
-        }
-      }
+    const services = stdout
+      .trim()
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => JSON.parse(line));
 
-      try {
-        const start = Date.now()
-
-        const response = await fetch(service.url, {
-          method: "HEAD",
-          signal: AbortSignal.timeout(5000),
-        })
-
-        const responseTime = Date.now() - start
-
-        return {
-          ...service,
-          status: response.ok ? "online" : "offline",
-          responseTime: `${responseTime} ms`,
-          lastCheck: new Date().toLocaleTimeString(),
-        }
-      } catch {
-        return {
-          ...service,
-          status: "offline",
-          responseTime: "-",
-          lastCheck: new Date().toLocaleTimeString(),
-        }
-      }
-    })
-  )
-
-  return NextResponse.json(checkedServices)
+    return NextResponse.json(services);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch services" },
+      { status: 500 }
+    );
+  }
 }

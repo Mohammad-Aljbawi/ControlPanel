@@ -29,7 +29,8 @@ export default function DashboardPage() {
 
   useEffect(() => {
     async function loadSystem() {
-      const res = await fetch("/api/system");
+      // const res = await fetch("/api/system");
+      const res = await fetch("/api/metrics/overview");
       const data = await res.json();
 
       setSystem(data);
@@ -38,21 +39,6 @@ export default function DashboardPage() {
       const networkData = await networkRes.json();
 
       setSystem(data);
-
-      setCpuHistory((prev) => [
-        ...prev.slice(-9),
-        {
-          time: new Date().toLocaleTimeString(),
-          value: data.cpu,
-        },
-      ]);
-      setMemoryHistory((prev) => [
-        ...prev.slice(-9),
-        {
-          time: new Date().toLocaleTimeString(),
-          value: data.memory,
-        },
-      ]);
 
       setCpuHistory((prev) => [
         ...prev.slice(-9),

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -9,39 +9,46 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleLogin() {
-    console.log("LOGIN CLICKED");
-    
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
-    console.log(res.status);
+  async function handleLogin(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+    setIsSubmitting(true);
 
-    // if (res.ok) {
-    //   router.push("/dashboard");
-    //   router.refresh();
-    //   return;
-    // } log aotquickly after successful login, so we can see the error message if login fails
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (res.ok) {
-  window.location.href = "/dashboard";
-  return;
-}
+      if (res.ok) {
+        router.push("/dashboard");
+        router.refresh();
+        return;
+      }
 
-    setError("Invalid username or password");
+      setError("Invalid username or password");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <div className="w-80 space-y-4">
+      <form
+        action="/api/auth/login"
+        method="post"
+        onSubmit={handleLogin}
+        className="w-80 space-y-4"
+      >
         <h1 className="text-2xl font-bold">Login</h1>
 
         <input
+          name="username"
           className="w-full border p-2"
           placeholder="Username"
           value={username}
@@ -49,6 +56,7 @@ export default function LoginPage() {
         />
 
         <input
+          name="password"
           type="password"
           className="w-full border p-2"
           placeholder="Password"
@@ -63,12 +71,13 @@ export default function LoginPage() {
         )}
 
         <button
-          onClick={handleLogin}
-          className="w-full rounded bg-blue-500 p-2 text-white"
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full rounded bg-blue-500 p-2 text-white disabled:cursor-not-allowed disabled:opacity-60"
         >
-          Login
+          {isSubmitting ? "Logging in..." : "Login"}
         </button>
-      </div>
+      </form>
     </div>
   );
 }

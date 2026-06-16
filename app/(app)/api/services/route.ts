@@ -65,9 +65,11 @@ export async function GET() {
 
     return NextResponse.json(services);
   } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to fetch services" },
-      { status: 500 }
-    );
-  }
+  console.error(error);
+
+  return NextResponse.json(
+    { error: String(error) },
+    { status: 500 }
+  );
+}
 }

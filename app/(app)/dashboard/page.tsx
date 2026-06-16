@@ -75,6 +75,7 @@ export default function DashboardPage() {
   if (!system) return null;
   return (
     <>
+      <iframe src="http://grafana.aljbawi.net/d-solo/rYdddlPWk/node-exporter-full?orgId=1&ffrom=now-1h&timezone=browser&var-ds_prometheus=bfojwh0m2tfy8c&var-job=node&var-nodename=moe-LIFEBOOK-E780&var-node=node-exporter:9100&refresh=5s&panelId=20" width="450" height="200" frameBorder="0"></iframe>
       <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold tracking-tight text-balance">
           Infrastructure Overview

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import ContainerGrid from "@/components/containers/container-grid"
+export const dynamic = "force-dynamic"
 
 export default function ContainersPage() {
   const [containers, setContainers] = useState([])

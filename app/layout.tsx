@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+// dark mode
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from "sonner"
 import './globals.css'
+
 
 const geist = Geist({ 
   subsets: ["latin"],
@@ -44,16 +46,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-background" suppressHydrationWarning>
       <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased`}>
-        {/* <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider>
           {children}
-        </ThemeProvider> */}
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+          {process.env.NODE_ENV === 'production' && <Analytics />}
+        </ThemeProvider>
         <Toaster />
       </body>
     </html>

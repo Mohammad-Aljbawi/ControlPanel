@@ -17,21 +17,22 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'InfraStack - Infrastructure Management Dashboard',
+  title: 'HomeLab',
   description: 'Modern infrastructure management dashboard for monitoring servers, databases, and network resources.',
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
+        url: '/favicon-white-512.png',
+        type: 'image/png',
         media: '(prefers-color-scheme: light)',
       },
       {
-        url: '/icon-dark-32x32.png',
+        url: '/logo-512.png',
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: '/favicon-white-512.png',
+        type: 'image/png',
       },
     ],
     apple: '/apple-icon.png',

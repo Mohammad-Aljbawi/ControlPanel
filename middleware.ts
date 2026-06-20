@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { jwtVerify } from "jose";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const session = request.cookies.get("session")?.value;
 
   console.log("PATH:", request.nextUrl.pathname);
@@ -21,9 +22,22 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
-  if (session === "authenticated") {
+if (session) {
+  try {
+    const decoded = await jwtVerify(
+      session,
+      new TextEncoder().encode(
+        process.env.JWT_SECRET!
+      )
+    );
+
+    console.log("JWT OK:", decoded);
+
     return NextResponse.next();
+  } catch (err) {
+    console.log("JWT ERROR:", err);
   }
+}
 
   return NextResponse.redirect(
     new URL("/login", request.url)

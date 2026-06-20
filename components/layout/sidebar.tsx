@@ -49,7 +49,7 @@ import {
 const systemItems = [
   { icon: Shield, label: "Security", href: "/dashboard/security" },
   { icon: Terminal, label: "Logs", href: "/dashboard/logs" },
-  { icon: Bell, label: "Alerts", badge: "3", href: "/dashboard/alerts" },
+  { icon: Bell, label: "Alerts", badge: "3", href: "/alerts" },
   { icon: Settings, label: "Settings", href: "/dashboard/settings" },
 ];
 
